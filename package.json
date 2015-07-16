@@ -1,0 +1,22 @@
+{
+  "name": "substance-starter",
+  "description": "Substance Starter",
+  "dependencies": {
+    "babelify": "^6.1.2",
+    "body-parser": "^1.12.4",
+    "browserify": "^10.2.4",
+    "express": "*",
+    "substance": "substance/substance#master",
+    "substance-ui": "substance/ui#master"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-sass": "^2.0.3",
+    "gulp-uglify": "^1.2.0",
+    "through2": "^2.0.0"
+  },
+  "scripts": {
+    "bundle": "gulp"
+  },
+  "version": "0.2.0"
+}
