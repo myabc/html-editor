@@ -74,6 +74,10 @@ class HtmlEditor extends React.Component {
     }
   }
 
+  getContent() {
+    return this.state.doc.toHtml();
+  }
+
   onSelectionChanged(sel, surface) {
     this.toolRegistry.each(function(tool) {
       tool.update(surface, sel);

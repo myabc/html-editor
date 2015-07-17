@@ -23,42 +23,7 @@
     <!-- It handles a list of paragraphs, advanced copy/paste scenarios as well as undo/redo. -->
 
     <div id="editor_container"></div>
-    <h2>Usage</h2>
-    <p>This editor depends on React and jQuery.</p>
-<pre><code>
-var React = require("react");
-var HtmlEditor = require("substance-html-editor");
-var $$ = React.createElement;
 
-React.render(
-  $$(HtmlEditor, {
-    content: htmlContent,
-    onContentChanged: function(html) {
-      console.log('Edited content');
-    }
-  }),
-  document.getElementById('editor_container')
-);</code></pre>
-
-<p>You can include markup tools you want to use, and customize their markup by passing children elements in the classic React style.</p>
-
-<pre><code>
-var React = require("react");
-var HtmlEditor = require("substance-html-editor");
-var $$ = React.createElement;
-
-React.render(
-  $$(HtmlEditor, {
-    content: htmlContent,
-    tools: [
-      $$(ToolComponent, { tool: 'emphasis', title: 'Emphasis', classNames: ['button', 'tool']}, "Emphasis"),
-      $$(ToolComponent, { tool: 'strong', title: 'Strong', classNames: ['button', 'tool']}, "Strong"),
-    ],
-    onContentChanged: function(html) {
-      console.log('Edited content');
-    }
-  }),
-  document.getElementById('editor_container')
-);</code></pre>
+    <p>For usage see <a href="http://github.com/substance/html-editor">Github repository</a>.</p>
   </body>
 </html>

@@ -6,6 +6,7 @@ var Paragraph = Document.Paragraph;
 var Heading = Document.Heading;
 var Emphasis = Document.Emphasis;
 var Strong = Document.Strong;
+
 var HtmlImporter = Substance.Document.HtmlImporter;
 var HtmlExporter = Substance.Document.HtmlExporter;
 
@@ -20,7 +21,7 @@ schema.getDefaultTextType = function() {
 
 schema.addNodes([
   Paragraph,
-  Heading,
+  // Heading,
   Emphasis,
   Strong
 ]);
