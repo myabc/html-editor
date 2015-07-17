@@ -1,0 +1,71 @@
+// Substance Base Styles
+@import 'node_modules/substance-ui/styles/index';
+
+// Content type styles
+@import 'node_modules/substance-ui/styles/modules/paragraph';
+@import 'node_modules/substance-ui/styles/modules/heading';
+
+// Text tool styles
+@import 'node_modules/substance-ui/styles/modules/text_tool';
+
+
+body {
+  // font-family: Arial;
+  line-height: 20px;
+  font-size: 15px;
+  color: #555;
+  background: #f1f1f1;
+  padding: 30px;
+}
+
+.clipboard { background: blue; z-index: -1; position: absolute; visibility: hidden; }
+
+p {
+  padding-bottom: 20px;
+}
+
+h1 {
+  font-size: 24px;
+  padding: 20px 0;
+}
+
+h2 {
+  font-size: 20px;
+  padding: 20px 0;
+}
+
+pre {
+  margin-top: 20px;
+  padding: 20px;
+  font-size: 12px;
+  background: #444;
+  color: #aaa;
+  font-family: Menlo, Bitstream Vera Sans Mono, Monaco, Consolas, monospace;
+  white-space: pre-wrap;
+}
+
+/* Editor component
+------------------------------------------------------- */
+
+.editor-component {
+  border: 1px solid #ddd;
+  background: white;
+  padding: 20px;
+  color: #222;
+}
+
+.toolbar {
+  padding-bottom: 20px;
+}
+
+.content-node.paragraph {
+  padding-bottom: 10px;
+}
+
+.strong {
+  font-weight: bold;
+}
+
+.emphasis {
+  font-style: italic;
+}

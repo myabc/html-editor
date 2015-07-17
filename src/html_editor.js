@@ -4,32 +4,41 @@ var Substance = require('substance');
 var $$ = React.createElement;
 var Surface = Substance.Surface;
 var _ = require("substance/helpers");
+
+var HtmlArticle = require("./html_article");
 var ContainerEditor = Surface.ContainerEditor;
 
 var Clipboard = Surface.Clipboard;
 var SurfaceManager = Surface.SurfaceManager;
-var ENABLED_TOOLS = ["strong", "emphasis"];
-
 var ToolComponent = require('substance-ui/tool_component');
+var TextToolComponent = require('substance-ui/text_tool_component');
 
-var components = require('./components');
-var tools = require('./tools');
+var components = {
+  "paragraph": require('substance-ui/paragraph_component'),
+  "heading": require('substance-ui/heading_component')
+};
 
+var tools = Surface.Tools;
 
-var SearchReplaceToolComponent = require('./components/search_replace_tool_component');
-
-// Editor
+// HtmlEditor
 // ----------------
 // 
 // A simple rich text editor implementation based on Substance
 
-
-class Editor extends React.Component {
+class HtmlEditor extends React.Component {
 
   constructor(props) {
     super(props);
 
-    var doc = props.doc;
+    var doc = HtmlArticle.fromHtml(props.content);
+    this.state = {
+      doc: doc
+    };
+
+    window.doc = doc;
+
+    doc.toHtml();
+
     this.surfaceManager = new SurfaceManager(doc);
     this.clipboard = new Clipboard(this.surfaceManager, doc.getClipboardImporter(), doc.getClipboardExporter());
 
@@ -44,12 +53,22 @@ class Editor extends React.Component {
 
     // Tool registry
     this.toolRegistry = new Substance.Registry();
-    _.each(tools, function(ToolClass, name) {
-      this.toolRegistry.add(name, new ToolClass());
+    _.each(tools, function(ToolClass) {
+      this.toolRegistry.add(ToolClass.static.name, new ToolClass());
     }, this);
+
+    if (this.props.onContentChanged) {
+      this.debouncedOnContentChanged = _.debounce(this.props.onContentChanged, 1000);  
+    }
   }
 
   onDocumentChanged(change) {
+    var doc = this.state.doc;
+
+    if (this.props.onContentChanged) {
+      this.debouncedOnContentChanged(doc, change);
+    }
+
     if (change.isAffected(['body', 'nodes'])) {
       this.forceUpdate();
     }
@@ -70,7 +89,7 @@ class Editor extends React.Component {
   }
 
   render() {
-    var doc = this.props.doc;
+    var doc = this.state.doc;
     var containerNode = doc.get('body');
 
     // Prepare container components (aka nodes)
@@ -84,16 +103,7 @@ class Editor extends React.Component {
     }.bind(this)));
 
     return $$('div', {className: 'editor-component'},
-      $$('div', {className: 'toolbar'},
-        $$(ToolComponent, { tool: 'emphasis', title: 'Emphasis', classNames: ['button', 'tool']}, "Emphasis"),
-        $$(ToolComponent, { tool: 'strong', title: 'Strong', classNames: ['button', 'tool']}, "Strong"),
-        $$(ToolComponent, { tool: 'highlight', title: 'Highlight', classNames: ['button', 'tool']}, "Highlight"),
-
-        $$(SearchReplaceToolComponent, {tool: 'search_replace', doc: doc, containerId: 'body'})
-        // $$(ToolComponent, { tool: 'search_replace', title: 'Search and replace', classNames: ['button', 'tool']}
-        //   $$('input', {})
-        // )
-      ),
+      this.props.toolbar ? $$(this.props.toolbar) : $$('div'),
       $$('div', {className: 'body-nodes', ref: 'bodyNodes', contentEditable: true, spellCheck: false},
         components
       )
@@ -101,19 +111,17 @@ class Editor extends React.Component {
   }
 
   componentDidMount() {
-    var doc = this.props.doc;
+    var doc = this.state.doc;
 
     doc.connect(this, {
       'document:changed': this.onDocumentChanged
     });
 
     this.surfaceManager.registerSurface(this.surface, {
-      enabledTools: ENABLED_TOOLS
+      enabledTools: this.props.enabledTools
     });
 
     this.surface.attach(this.refs.bodyNodes.getDOMNode());
-
-
     this.surface.connect(this, {
       'selection:changed': this.onSelectionChanged
     });
@@ -127,7 +135,7 @@ class Editor extends React.Component {
   }
 
   componentWillUnmount() {
-    var doc = this.props.doc;
+    var doc = this.state.doc;
     doc.disconnect(this);
     this.surface.dispose();
     this.clipboard.detach(React.findDOMNode(this));
@@ -147,14 +155,17 @@ class Editor extends React.Component {
   }
 }
 
-
-Editor.displayName = "Editor";
-
-  // child context signature provided to editor components
-Editor.childContextTypes = {
+HtmlEditor.displayName = "HtmlEditor";
+// child context signature provided to editor components
+HtmlEditor.childContextTypes = {
   surface: React.PropTypes.object,
   componentRegistry: React.PropTypes.object,
   toolRegistry: React.PropTypes.object
 };
 
-module.exports = Editor;
+
+// Expose some more useful components
+HtmlEditor.ToolComponent = ToolComponent;
+HtmlEditor.TextToolComponent = TextToolComponent;
+
+module.exports = HtmlEditor;

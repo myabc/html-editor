@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Substance HTML Editor</title>
+
+    <meta charset="UTF-8">
+    <link href='app.css' rel='stylesheet' type='text/css'/>
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic' rel='stylesheet' type='text/css'>
+
+    <!-- Libs -->
+    <script src="javascripts/react.js"></script>
+    <script src="javascripts/jquery-2.1.3.min.js"></script>
+    
+    <!-- App -->
+    <script src='app.js'></script>
+
+  </head>
+  <body>
+    <h1>Substance HTML Editor</h1>
+    <p>HTML Editor is a fully customizable and highly reliable and performant Rich Text Editing Component for your web app. Unlike most web-based editors, Substance operates on a Javascript data model, and uses HTML just as an input and output format. With Substance you can build <a href="http://cdn.substance.io/science-writer">full-fledged editing applications.</a>.</p>
+    <!-- It handles a list of paragraphs, advanced copy/paste scenarios as well as undo/redo. -->
+
+    <div id="editor_container"></div>
+    <h2>Usage</h2>
+    <p>This editor depends on React and jQuery.</p>
+<pre><code>
+var React = require("react");
+var HtmlEditor = require("substance-html-editor");
+var $$ = React.createElement;
+
+React.render(
+  $$(HtmlEditor, {
+    content: htmlContent,
+    onContentChanged: function(html) {
+      console.log('Edited content');
+    }
+  }),
+  document.getElementById('editor_container')
+);</code></pre>
+
+<p>You can include markup tools you want to use, and customize their markup by passing children elements in the classic React style.</p>
+
+<pre><code>
+var React = require("react");
+var HtmlEditor = require("substance-html-editor");
+var $$ = React.createElement;
+
+React.render(
+  $$(HtmlEditor, {
+    content: htmlContent,
+    tools: [
+      $$(ToolComponent, { tool: 'emphasis', title: 'Emphasis', classNames: ['button', 'tool']}, "Emphasis"),
+      $$(ToolComponent, { tool: 'strong', title: 'Strong', classNames: ['button', 'tool']}, "Strong"),
+    ],
+    onContentChanged: function(html) {
+      console.log('Edited content');
+    }
+  }),
+  document.getElementById('editor_container')
+);</code></pre>
+  </body>
+</html>

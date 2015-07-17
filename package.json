@@ -1,12 +1,12 @@
 {
-  "name": "substance-starter",
-  "description": "Substance Starter",
+  "name": "substance-html-editor",
+  "description": "Substance HTML Editor",
   "dependencies": {
     "babelify": "^6.1.2",
-    "body-parser": "^1.12.4",
     "browserify": "^10.2.4",
-    "express": "*",
-    "substance": "substance/substance#master",
+    "node-sass": "3.x",
+    "express": "4.13.1",
+    "substance": "substance/html-editor#master",
     "substance-ui": "substance/ui#master"
   },
   "devDependencies": {
@@ -18,5 +18,5 @@
   "scripts": {
     "bundle": "gulp"
   },
-  "version": "0.2.0"
+  "version": "0.1.0"
 }
