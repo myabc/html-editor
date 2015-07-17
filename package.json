@@ -6,7 +6,7 @@
     "browserify": "^10.2.4",
     "node-sass": "3.x",
     "express": "4.13.1",
-    "substance": "substance/html-editor#master",
+    "substance": "substance/substance#master",
     "substance-ui": "substance/ui#master"
   },
   "devDependencies": {
