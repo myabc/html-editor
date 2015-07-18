@@ -21,7 +21,7 @@ schema.getDefaultTextType = function() {
 
 schema.addNodes([
   Paragraph,
-  // Heading,
+  Heading,
   Emphasis,
   Strong
 ]);
