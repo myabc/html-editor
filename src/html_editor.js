@@ -39,7 +39,12 @@ class HtmlEditor extends React.Component {
 
     doc.toHtml();
 
-    this.surfaceManager = new SurfaceManager(doc);
+    if (this.props.surfaceManager) {
+      this.surfaceManager = this.props.surfaceManager  
+    } else {
+      this.surfaceManager = new SurfaceManager(doc);
+    }
+    
     this.clipboard = new Clipboard(this.surfaceManager, doc.getClipboardImporter(), doc.getClipboardExporter());
 
     var editor = new ContainerEditor('body');
@@ -160,6 +165,7 @@ class HtmlEditor extends React.Component {
 }
 
 HtmlEditor.displayName = "HtmlEditor";
+
 // child context signature provided to editor components
 HtmlEditor.childContextTypes = {
   surface: React.PropTypes.object,
