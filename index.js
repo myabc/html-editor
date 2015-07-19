@@ -1,1 +1,1 @@
-module.exports = require('./src/html_editor');
+module.exports = require('substance-ui/html_editor');
