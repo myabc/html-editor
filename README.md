@@ -6,8 +6,7 @@ A flexible Rich Text Editing Component. Install and play around. For documentati
 ## Basic Usage
 
 ```js
-var React = require("react");
-var HtmlEditor = require("substance-html-editor");
+var HtmlEditor = require("substance-ui/html-editor");
 var $$ = React.createElement;
 
 React.render(
@@ -23,25 +22,60 @@ React.render(
 
 ## Enabling a custom toolbar
 
+Here is a more complete example, including a custom toolbar.
+
 ```js
-var React = require("react");
-var HtmlEditor = require("substance-html-editor");
+var HtmlEditor = require("substance-ui/html-editor");
+var TextToolComponent = require("substance-ui/text_tool_component");
+var ToolComponent = require("substance-ui/tool_component");
 var $$ = React.createElement;
 
-React.render(
-  $$(HtmlEditor, {
-    content: htmlContent,
-    tools: [
-      $$(ToolComponent, { tool: 'emphasis', title: 'Emphasis', classNames: ['button', 'tool']}, "Emphasis"),
-      $$(ToolComponent, { tool: 'strong', title: 'Strong', classNames: ['button', 'tool']}, "Strong"),
-    ],
-    onContentChanged: function(html) {
-      console.log('Edited content');
-    }
-  }),
-  document.getElementById('editor_container')
-);
+class Toolbar extends React.Component {
+  render() {
+    return $$("div", { className: "toolbar"},
+      $$(TextToolComponent, { tool: 'text', title: 'Switch text'}),
+      $$(ToolComponent, { tool: 'undo', title: 'Undo', classNames: ['button', 'tool']}, $$(Icon, {icon: "fa-undo"})),
+      $$(ToolComponent, { tool: 'redo', title: 'Redo', classNames: ['button', 'tool']}, $$(Icon, {icon: "fa-repeat"})),
+
+      $$(ToolComponent, { tool: 'emphasis', classNames: ['button', 'tool']}, $$(Icon, {icon: "fa-italic"})),
+      $$(ToolComponent, { tool: 'strong', classNames: ['button', 'tool']}, $$(Icon, {icon: "fa-bold"}))
+    );
+  }
+}
+
+class MyEditor extends React.Component {
+
+  handleSave(e) {
+    var editor = this.refs.htmlEditor;
+    console.log('new content', editor.getContent());
+  }
+
+  render() {
+    return $$('div', {className: 'my-editor-component'},
+      $$(HtmlEditor, {
+        ref: 'htmlEditor',
+        content: htmlContent,
+        toolbar: Toolbar,
+        enabledTools: ["text", "strong", "emphasis"]
+      }),
+      $$('button', {onClick: this.handleSave.bind(this)}, "Save")
+    );
+
+  }
+}
+
+$(function() {
+  React.render(
+    $$(MyEditor),
+    document.getElementById('editor_container')
+  );
+});
 ```
+
+
+
+
+
 
 ## Development
 
@@ -54,7 +88,7 @@ $ git clone https://github.com/substance/html-editor.git
 Navigate to the source directory.
 
 ```bash
-$ cd starter
+$ cd html-editor
 ```
 
 Install via npm
