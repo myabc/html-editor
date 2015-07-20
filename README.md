@@ -28,6 +28,7 @@ Here is a more complete example, including a custom toolbar.
 var HtmlEditor = require("substance-ui/html-editor");
 var TextToolComponent = require("substance-ui/text_tool_component");
 var ToolComponent = require("substance-ui/tool_component");
+var Icon = require("substance-ui/font_awesome_icon");
 var $$ = React.createElement;
 
 class Toolbar extends React.Component {
